@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Simple Interest</title>
+    <script>
+        async function simpleInterest(event) {
+            // Prevent default behavior
+            event.preventDefault();
+
+            // Get input values
+            const principal = document.getElementById('principal').value;
+            const rate = document.getElementById('rate').value;
+            const time = document.getElementById('time').value;
+
+            try {
+                // Fetch data from the backend
+                const response = await fetch(`https://intrest-calculation-backend.onrender.com/Interest?principle=${principal}&time=${time}&rate=${rate}`);
+
+
+
+                // Parse the JSON data
+                const data = await response.json();
+                console.log(data);
+
+                // Display the results
+                document.getElementById('Total').innerHTML = "Total Amount: " + data.total;
+                document.getElementById('interest').innerHTML = "Simple Interest: " + data.simpleIntrest;
+            } catch (err) {
+
+                console.error("Data not fetched:", err);
+                alert("Data not fetched: " + err.message);
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f63a75, #f6a3b5);
+        }
+
+        .box {
+            width: 60%;
+            padding: 40px;
+            background-color: #fff5f8;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        input,
+        button {
+            margin: 20px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            outline: none;
+            font-size: 18px;
+        }
+
+        input {
+            background-color: #ffe6ee;
+            color: #333;
+        }
+
+        button {
+            background-color: #ff6cb8;
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #ff4fa8;
+            cursor: pointer;
+            border: 1px solid rgb(31, 31, 31);
+        }
+
+        p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff4fa8;
+        }
+
+
+
+        /* Responsive Design for Mobile */
+        @media (max-width: 600px) {
+            .box {
+                width: 90%;
+                padding: 20px;
+            }
+
+            button {
+                font-size: 18px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Simple Interest Calculator</h1>
+    <br>
+    <p></p>
+    <br>
+
+    <br>
+    <div id="interestForm" class="box">
+        <div class="inputbox">
+            <p>Principal Amount:</p>
+            <input type="text" id="principal" required>
+
+            <p>Rate of Interest (%):</p>
+            <input type="text" id="rate" required>
+
+            <p>Time (in years):</p>
+            <input type="text" id="time" required>
+        </div>
+        <!-- Button to trigger calculation -->
+        <div>
+            <button type="button" onclick="simpleInterest(event)">Calculate</button>
+        </div>
+
+        <div class="answerbox">
+            <p id="Total"></p>
+            <p id="interest"></p>
+        </div>
+    </div>
+</body>
+
+</html>
